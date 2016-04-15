@@ -1,4 +1,11 @@
-# parallel protractor
+# parallel protractor example
+
+> Running parallel end 2 end tests in using Protractor from the same spec
+
+[![Build status][ci-image] ][ci-url]
+
+[ci-image]: https://travis-ci.org/bahmutov/parallel-protractor-example.png?branch=master
+[ci-url]: https://travis-ci.org/bahmutov/parallel-protractor-example
 
 We have same 2 unit tests in 3 spec files
 
