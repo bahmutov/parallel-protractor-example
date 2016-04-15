@@ -9,7 +9,8 @@
     "protractor": "protractor conf.js",
     "time-protractor": "time npm run protractor",
     "run-one": "protractor conf.js --suite=one",
-    "run-spread": "protractor conf.js --suite=spread"
+    "run-spread": "protractor conf.js --suite=spread",
+    "parallel": "node -r ./parallelize.js node_modules/.bin/protractor conf.js --suite=one"
   },
   "keywords": [],
   "author": "",
