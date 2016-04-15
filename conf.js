@@ -6,5 +6,11 @@ exports.config = {
     ui: 'bdd',
     reporter: 'spec',
     slow: 5000
-  }
+  },
+  capabilities: {
+    browserName: 'chrome',
+    maxInstances: 5,
+    shardTestFiles: true,
+  },
+  maxSessions: 3
 }
