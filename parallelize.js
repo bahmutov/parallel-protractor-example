@@ -16,6 +16,18 @@ Module._resolveFilename = function (name, from) {
   const result = __resolveFilename(name, from)
   return result
 }
+
+const __loadModule = Module._load
+Module._load = function (filename, parent) {
+  if (isMockSpecFilename(filename)) {
+    console.log('loading mock spec module', filename)
+    const index = findMock(filename)
+    console.log('mock spec index', index)
+    return eval(mockSpecs[index])
+  }
+  return __loadModule(filename, parent)
+}
+
 // const _require = Module.prototype.require
 // Module.prototype.require = function (name, options) {
 //   console.log('module require', name)
@@ -104,6 +116,17 @@ function isMockSpecFilename (filename) {
   // return typeof config !== 'undefined' &&
   //   Array.isArray(config.suites[suiteName]) &&
   //   config.suites[suiteName].indexOf(filename) !== -1
+}
+
+function findMock (filename) {
+  var foundIndex = -1
+  config.suites[suiteName].some((name, k) => {
+    if (filename === name) {
+      foundIndex = k
+      return true
+    }
+  })
+  return foundIndex
 }
 
 fs.readFileSync = function (filename) {
