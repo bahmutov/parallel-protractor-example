@@ -4,7 +4,27 @@ const path = require('path')
 const confFilename = path.resolve('./conf.js')
 const suiteName = 'one'
 console.log('parallelizing, assuming conf file\n%s\nsuite name "%s"',
-  confFilename, suiteName)
+  confFilename, suiteName, +new Date())
+
+const Module = require('module')
+const __resolveFilename = Module._resolveFilename
+Module._resolveFilename = function (name, from) {
+  if (isMockSpecFilename(name)) {
+    console.log('resolving mock spec filename', name)
+    return name
+  }
+  const result = __resolveFilename(name, from)
+  return result
+}
+// const _require = Module.prototype.require
+// Module.prototype.require = function (name, options) {
+//   console.log('module require', name)
+//   if (name === 'fs') {
+//     return _require(name, options)
+//   }
+//   const nameToLoad = path.resolve(process.cwd(), name)
+//   return _require(nameToLoad, options)
+// }
 
 const fs = require('fs')
 const _readFileSync = fs.readFileSync
@@ -69,9 +89,21 @@ function mockFilename (k) {
 config.suites[suiteName] = mockSpecs.map((part, k) => mockFilename(k))
 console.log('mock suite filenames', config.suites[suiteName])
 
+// config.suites[suiteName].forEach((filename, k) => {
+//   require.cache[filename] = {
+//     id: filename,
+//     filename: filename,
+//     // exports: eval(mockSpecs[k]),
+//     loaded: true
+//   }
+// })
+// console.log(require.cache)
+
 function isMockSpecFilename (filename) {
-  return Array.isArray(config.suites[suiteName]) &&
-    config.suites[suiteName].indexOf(filename) !== -1
+  return filename.indexOf('mock-spec') !== -1
+  // return typeof config !== 'undefined' &&
+  //   Array.isArray(config.suites[suiteName]) &&
+  //   config.suites[suiteName].indexOf(filename) !== -1
 }
 
 fs.readFileSync = function (filename) {
@@ -79,7 +111,7 @@ fs.readFileSync = function (filename) {
     console.log('loading config file', filename)
     console.log('returning updated config file with mock spec filenames')
     const mockConfigSource = 'exports.config = ' + JSON.stringify(config, null, 2)
-    console.log(mockConfigSource)
+    // console.log(mockConfigSource)
     return mockConfigSource
   } else if (filename === specFilename) {
     console.log('loading spec file', specFilename)
@@ -87,6 +119,9 @@ fs.readFileSync = function (filename) {
 
   if (isMockSpecFilename(filename)) {
     console.log('loading mock spec file', filename)
+  }
+  if (filename.indexOf('node_modules') === -1) {
+    console.log(filename)
   }
 
   return _readFileSync.apply(null, arguments)
