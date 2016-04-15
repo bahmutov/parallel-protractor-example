@@ -6,7 +6,7 @@ exports.config = {
     one: 'spec.js', // all tests in single file
     spread: ['spec-1.js', 'spec-2.js'] // individual tests in separate files
   },
-  suite: null, // disable default suite run
+  suite: 'one', // default suite to run
   mochaOpts: {
     ui: 'bdd',
     reporter: 'spec',

@@ -11,6 +11,9 @@ sharded tests flag in the `conf.js` so when running suite "spread" each
 browser instance can execute its own `spec-*.js` file, effectively
 executing tests in parallel.
 
+See config options for parallel protractor run in 
+[this blog post](http://blog.yodersolutions.com/run-protractor-tests-in-parallel/)
+
 ## Running tests in sequence
 
 ```sh
