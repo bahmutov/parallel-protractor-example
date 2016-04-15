@@ -23,7 +23,7 @@ Module._load = function (filename, parent) {
     console.log('loading mock spec module', filename)
     const index = findMock(filename)
     console.log('mock spec index', index)
-    return eval(mockSpecs[index])
+    return eval(mockSpecs[index]) // eslint-disable-line no-eval
   }
   return __loadModule(filename, parent)
 }
@@ -41,7 +41,7 @@ Module._load = function (filename, parent) {
 const fs = require('fs')
 const _readFileSync = fs.readFileSync
 const conf = fs.readFileSync(confFilename, 'utf8')
-const config = eval(conf)
+const config = eval(conf) // eslint-disable-line no-eval
 // console.log(config)
 const specFilename = path.resolve(config.suites[suiteName])
 console.log('spec "%s" filename from conf', suiteName, specFilename)
@@ -78,14 +78,14 @@ const specParts = spec.split(sep)
     return part
   })
 
-function printPart(part, k) {
-  console.log('=== part', k)
-  console.log(part)
-}
-// specParts.forEach((part, k) => {
-//   console.log('=== part', k)
-//   console.log(part)
-// })
+// function printPart (part, k) {
+  //   console.log('=== part', k)
+  //   console.log(part)
+  // }
+  // specParts.forEach((part, k) => {
+  //   console.log('=== part', k)
+  //   console.log(part)
+  // })
 
 // assuming
 // first part is common (setup)
@@ -113,9 +113,9 @@ console.log('mock suite filenames', config.suites[suiteName])
 
 function isMockSpecFilename (filename) {
   return filename.indexOf('mock-spec') !== -1
-  // return typeof config !== 'undefined' &&
-  //   Array.isArray(config.suites[suiteName]) &&
-  //   config.suites[suiteName].indexOf(filename) !== -1
+// return typeof config !== 'undefined' &&
+//   Array.isArray(config.suites[suiteName]) &&
+//   config.suites[suiteName].indexOf(filename) !== -1
 }
 
 function findMock (filename) {
