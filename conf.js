@@ -1,7 +1,12 @@
 exports.config = {
   framework: 'mocha',
   seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['spec.js'],
+  // specs: ['spec.js'],
+  suites: {
+    one: 'spec.js', // all tests in single file
+    spread: ['spec-1.js', 'spec-2.js'] // individual tests in separate files
+  },
+  suite: null, // disable default suite run
   mochaOpts: {
     ui: 'bdd',
     reporter: 'spec',
@@ -9,8 +14,7 @@ exports.config = {
   },
   capabilities: {
     browserName: 'chrome',
-    maxInstances: 5,
     shardTestFiles: true,
-  },
-  maxSessions: 3
+    maxInstances: 2
+  }
 }

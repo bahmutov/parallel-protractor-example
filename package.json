@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-hub": "webdriver-manager start",
     "protractor": "protractor conf.js",
-    "time-protractor": "time npm run protractor"
+    "time-protractor": "time npm run protractor",
+    "run-one": "protractor conf.js --suite=one",
+    "run-spread": "protractor conf.js --suite=spread"
   },
   "keywords": [],
   "author": "",
